@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 const homeRouter = require('./routes/home');
+const aboutRouter = require('./routes/about');
 
 //middleware
 app.use(express.json());
@@ -16,6 +17,7 @@ app.set('view engine', 'ejs');
 
 //routes
 app.use('/', homeRouter);
+app.use('/', aboutRouter);
 
 //checking server
 const port = 8000;

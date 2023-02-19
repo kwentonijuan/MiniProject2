@@ -47,3 +47,8 @@
     height: 75px;
     width: 75px;
 }
+
+ .overlay {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
