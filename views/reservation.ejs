@@ -2,9 +2,9 @@
 <body>
     <%- include('./partials/nav.ejs') %>
     <div class="container">
-        <h1>Rooms Page</h1>
+        <h1>Reservation Page</h1>
         <div class="container">
-            <form action="/room" method="GET" class="mt-1 mb-1">
+            <form action="/reservation" method="GET" class="mt-1 mb-1">
                 <input class="form-control me-2" type="text" id="search" name="search" placeholder="Search room name" aria-label="Search" value="<%= search != '' ? search: '' %>">
                 <div class="pt-3 me-2">
                     <label for="limit">Number of items per page:</label>
@@ -18,20 +18,20 @@
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <p>Total items: <%=total%></p>
-            <form action="room/add" method="GET">
-                <input type="submit" class="btn btn-primary" value="Add Room">
+            <form action="reservation/add" method="GET">
+                <input type="submit" class="btn btn-primary" value="New Booking">
             </form>
             <div class="d-flex flex-wrap gap-2">
                 <%for(let items of data){%>
                 <div class="card p-1" style="width: 13rem;">
-                    <img class="cards-rooms card-img-top" src=<%=items.roomPic%>>
+                    <!-- <img class="cards-rooms card-img-top" src=<%#=items.roomPic%>> -->
                     <div class="card-body">
-                        <h5 class="card-title"><%=items.roomName%></h5>
-                        <p class="card-text"><%=items.roomLimit%></p>
-                        <p class="card-text"><%=items.roomPrice%></p>
+                        <h5 class="card-title"><%=items.referenceNo%></h5>
+                        <p class="card-text"><%=items.customerName%></p>
+                        <p class="card-text"><%=items.roomId%></p>
                     </div>
-                    <a href=<%="room/view/" + items._id %> class="btn btn-primary mt-1">View</a>
-                    <a href=<%="room/edit/" + items._id %> class="btn btn-secondary mt-1">Edit</a>
+                    <a href=<%="reservation/view/" + items._id %> class="btn btn-primary mt-1">View</a>
+                    <a href=<%="reservation/edit/" + items._id %> class="btn btn-secondary mt-1">Edit</a>
                     <a href="#" class="btn btn-danger mt-1" data-bs-toggle="modal" data-bs-target=<%="#deletemodal" + items._id%> >Delete</a>
                 </div>
                 <div class="modal fade" id=<%="deletemodal" + items._id%> data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">

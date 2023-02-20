@@ -9,6 +9,7 @@ const cors = require('cors');
 
 const navRouter = require('./routes/navRoute');
 const roomRouter = require('./routes/roomRoute');
+const reservationRouter = require('./routes/reservationRoute')
 
 //middleware
 app.use(express.json());
@@ -25,6 +26,7 @@ app.set('view engine', 'ejs');
 //routes
 app.use('/', navRouter);
 app.use('/room', roomRouter);
+app.use('/reservation', reservationRouter);
 
 //checking connection
 mongoose.connect(process.env.DB_CONNECT, ()=>{

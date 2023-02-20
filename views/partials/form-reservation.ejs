@@ -1,0 +1,62 @@
+<form class="d-none" action="/reservation/findRoom" method="GET">
+    <input type="text" class="form-control" id="roomIdFind" name="roomIdFind">
+    <input type="submit" class="btn btn-primary mt-1" id="findRoom" name="findRoom" value="Find Room">    
+</form>
+<form action="/reservation/addReservation" method="POST" class="border p-2">
+    <div class="form-group">
+        <label for="roomIdSelect">Room:</label>
+        <select class="w-100" id="roomIdSelect" name="roomIdSelect" onchange="myFunction()">
+            <option value="-1">--</option>
+            <%for(let items of data){%>
+                <option value="<%= items._id %>"><%=items.roomName%></option>
+            <%}%>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="roomLimit">Room Limit:</label>
+        <input type="text" class="form-control" readonly id="roomLimit" name="roomLimit">
+    </div>
+    <div class="form-group">
+        <label for="roomPrice">Room Price:</label>
+        <input type="text" class="form-control" readonly id="roomPrice" name="roomPrice">
+    </div>
+    <div class="form-group">
+        <label for="referenceNo">Reference No:</label>
+        <input type="text" class="form-control" readonly id="referenceNo" name="referenceNo"  placeholder="Generate number">
+        <input type="submit" class="btn btn-success mt-1" value="Generate Reference No.">
+    </div>
+    <div class="form-group">
+        <label for="customerName">Customer Name:</label>
+        <input type="text" class="form-control" id="customerName" name="customerName"  placeholder="Enter Customer Name">
+    </div>
+    <div class="form-group">
+        <label for="customerEmail">Customer Email:</label>
+        <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter Customer Email">
+    </div>
+    <div class="form-group">
+        <label for="customerMobile">Customer Mobile:</label>
+        <input type="text" class="form-control" id="customerMobile" name="customerMobile" placeholder="Enter Customer Mobile No.">
+    </div>
+    <div class="form-group">
+        <label for="checkInDate">Check-In Date:</label>
+        <input type="date" class="form-control" id="checkInDate" name="checkInDate">
+    </div>
+    <div class="form-group">
+        <label for="checkOutDate">Check-Out Date:</label>
+        <input type="date" class="form-control" id="checkOutDate" name="checkOutDate">
+    </div>
+    <input type="submit" class="btn btn-primary mt-1" value="Submit">
+</form>
+
+<script>
+    function myFunction(){
+        // alert('test');
+        let e = document.getElementById("roomIdSelect");
+        // alert(e.value);
+        let f = document.getElementById('roomIdFind');
+        f.value = e.value;
+        // alert(f.value);
+        let link = document.getElementById('findRoom');
+        link.click();
+    }
+</script>
