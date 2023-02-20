@@ -47,3 +47,22 @@
     height: 75px;
     width: 75px;
 }
+
+.overlay {
+    /* position: relative; */
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.cards-rooms {
+    height: 10rem;
+    width: 12rem;
+    object-fit: cover;
+    margin: auto;
+}
+
+.cards-view1, .cards-edit{
+    height: 20rem;
+    width: 20rem;
+    object-fit: cover;
+    margin: auto;
+}
