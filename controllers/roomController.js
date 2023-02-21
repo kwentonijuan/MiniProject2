@@ -60,7 +60,7 @@ const rooms_update = async (req, res) => {
         available: req.body.available
     })
 
-    if(!roomUpdate) return res.status(404).send(`Book can't be updated`);
+    if(!roomUpdate) return res.status(404).send(`Room can't be updated`);
     res.redirect('/room')
 }
 
@@ -72,7 +72,7 @@ const rooms_delete = async (req, res) => {
     const deleteRoom = await Rooms.findByIdAndDelete(id);
 
     if(!deleteRoom){
-        return res.status(404).send(`Book can't be deleted`);
+        return res.status(404).send(`Room can't be deleted`);
     }
     res.redirect('/room');
 }

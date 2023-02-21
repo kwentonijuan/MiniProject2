@@ -2,10 +2,10 @@
 <body>
     <%- include('./partials/nav.ejs') %>
     <div class="container">
-        <h1>Reservation Page</h1>
+        <h1>Reservations Page</h1>
         <div class="container">
             <form action="/reservation" method="GET" class="mt-1 mb-1">
-                <input class="form-control me-2" type="text" id="search" name="search" placeholder="Search room name" aria-label="Search" value="<%= search != '' ? search: '' %>">
+                <input class="form-control me-2" type="text" id="search" name="search" placeholder="Search customer name or email" aria-label="Search" value="<%= search != '' ? search: '' %>">
                 <div class="pt-3 me-2">
                     <label for="limit">Number of items per page:</label>
                     <select name="limit" id="limit">
@@ -26,8 +26,8 @@
                 <div class="card p-1" style="width: 13rem;">
                     <!-- <img class="cards-rooms card-img-top" src=<%#=items.roomPic%>> -->
                     <div class="card-body">
-                        <h5 class="card-title"><%=items.referenceNo%></h5>
-                        <p class="card-text"><%=items.customerName%></p>
+                        <h5 class="card-title"><%=items.customerName%></h5>
+                        <p class="card-text"><%=items.customerEmail%></p>
                         <p class="card-text"><%=items.roomId%></p>
                     </div>
                     <a href=<%="reservation/view/" + items._id %> class="btn btn-primary mt-1">View</a>
@@ -47,7 +47,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <form action=<%="room/delete/" + items._id %> method="GET">
+                                <form action=<%="reservation/delete/" + items._id + "/" + items.roomId %> method="GET">
                                     <input type="submit" class="btn btn-danger" value="Delete">
                                 </form>
                             </div>
