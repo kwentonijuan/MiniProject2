@@ -1,11 +1,5 @@
 const mongoose = require('mongoose');
 const reservationSchema = new mongoose.Schema({
-referenceNo:{
-    type: String,
-    required: true, 
-    max: 150,
-    min: 6
-},
 customerName:{
     type: String, 
     required: true, 

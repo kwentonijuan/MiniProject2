@@ -54,12 +54,14 @@ const rooms_update = async (req, res) => {
     let roomUpdate = await Rooms.findByIdAndUpdate(id, {
         roomName: req.body.roomName,
         roomPic: req.body.roomPic,
-        roomLimit: req.body.roomLimit,
-        roomPrice: req.body.roomPrice
+        capacity: req.body.capacity,
+        price: req.body.price,
+        category: req.body.category,
+        available: req.body.available
     })
 
     if(!roomUpdate) return res.status(404).send(`Book can't be updated`);
-    res.redirect('back')
+    res.redirect('/room')
 }
 
 // delete room
@@ -72,16 +74,14 @@ const rooms_delete = async (req, res) => {
     if(!deleteRoom){
         return res.status(404).send(`Book can't be deleted`);
     }
-    res.redirect('back');
+    res.redirect('/room');
 }
 
 // search room
 const rooms_search =  async (req, res) => {
     try {
         const page = parseInt(req.query.page) - 1 || 0;
-        // console.log(`page: ${page + 1}`);
         const limit = parseInt(req.query.limit) || 5;
-        // console.log("limit: ", limit);
         const search = req.query.search || '';
 
         //total search items
@@ -90,13 +90,14 @@ const rooms_search =  async (req, res) => {
         });
 
         //check/ search from database 
-        const rooms = await Rooms.find({roomName: {$regex: search, $options: 'i'}})
-        // .where(search)
+        const rooms = await Rooms.find({
+            $or: [{roomName: {$regex: search, $options: 'i'}},
+                {category: {$regex: search, $options: 'i'}}
+            ]})
         .limit(limit)
         .skip(page * limit);
 
         res.render('room',{title:"ROOMS", data: rooms, total, limit, page: page+1, search});
-        // res.render('room',{title:"ROOMS", data: rooms, total, limit, page, search});
     } catch (error) {
         console.log(error);
     }

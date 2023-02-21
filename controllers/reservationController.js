@@ -30,6 +30,8 @@ const rooms_index = async (req, res) => {
 // find room
 const rooms_find = (req,res) => {
     let id = req.query.roomIdFind;
+    let passedCheck = false;
+    let rooms = null;
     Rooms.findById(id)
     .then((result) => {
         if(result){
@@ -43,12 +45,22 @@ const rooms_find = (req,res) => {
             // })
             // .catch(err => console.log(err))
             res.render('reservation-add',{title:"NEW BOOKING", data: null, rooms: result});
+            // passedCheck = true;
+            // romms = result;
         }else{
             res.status(400).send('Id does not exist');
             // res.render('noPageFound', {title:'PAGE NOT FOUND'});
         }
     })
     .catch(err => console.log(err))
+
+    // if (passedCheck) {
+    //     Rooms.find().sort({createdAt: 1})
+    //     .then((results) => {
+    //         res.render('reservation-add',{title:"NEW BOOKING", data: results, rooms: result});
+    //     })
+    //     .catch(err => console.log(err))
+    // }
 }
 
 module.exports = {

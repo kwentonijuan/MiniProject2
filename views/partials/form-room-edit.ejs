@@ -9,12 +9,36 @@
         <input type="text" class="form-control" id="roomPic" name="roomPic"  value=<%=data.roomPic%>>
     </div>
     <div class="form-group">
-        <label for="roomLimit">Room Limit:</label>
-        <input type="number" class="form-control" id="roomLimit" name="roomLimit" value=<%=data.roomLimit%>>
+        <label for="capacity">Capacity:</label>
+        <input type="number" class="form-control" id="capacity" name="capacity" value=<%=data.capacity%>>
     </div>
     <div class="form-group">
-        <label for="roomPrice">Room Price:</label>
-        <input type="number" class="form-control" id="roomPrice" name="roomPrice" value=<%=data.roomPrice%>>
+        <label for="price">Price:</label>
+        <input type="number" class="form-control" id="price" name="price" value=<%=data.price%>>
+    </div>
+    <div class="form-group">
+        <label for="category">Category:</label>
+        <select class="w-100" id="category" name="category">
+            <%if(data.category=='deluxe'){%>
+                <option value="normal">normal</option>
+                <option value="deluxe" selected>deluxe</option>
+            <%}else{%>
+                <option value="normal" selected>normal</option>
+                <option value="deluxe">deluxe</option>
+            <%}%>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="available">Available:</label>
+        <select class="w-100" id="available" name="available">
+            <%if(data.available==true){%>
+                <option value="true" selected>true</option>
+                <option value="false">false</option>
+            <%}else{%>
+                <option value="true">true</option>
+                <option value="false" selected>false</option>
+            <%}%>
+        </select>
     </div>
     <input type="submit" class="btn btn-primary mt-1" value="Submit">
 </form>

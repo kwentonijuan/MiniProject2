@@ -5,7 +5,7 @@
         <h1>Rooms Page</h1>
         <div class="container">
             <form action="/room" method="GET" class="mt-1 mb-1">
-                <input class="form-control me-2" type="text" id="search" name="search" placeholder="Search room name" aria-label="Search" value="<%= search != '' ? search: '' %>">
+                <input class="form-control me-2" type="text" id="search" name="search" placeholder="Search room name or category" aria-label="Search" value="<%= search != '' ? search: '' %>">
                 <div class="pt-3 me-2">
                     <label for="limit">Number of items per page:</label>
                     <select name="limit" id="limit">
@@ -27,8 +27,8 @@
                     <img class="cards-rooms card-img-top" src=<%=items.roomPic%>>
                     <div class="card-body">
                         <h5 class="card-title"><%=items.roomName%></h5>
-                        <p class="card-text"><%=items.roomLimit%></p>
-                        <p class="card-text"><%=items.roomPrice%></p>
+                        <p class="card-text"><%=items.capacity%></p>
+                        <p class="card-text"><%=items.price%></p>
                     </div>
                     <a href=<%="room/view/" + items._id %> class="btn btn-primary mt-1">View</a>
                     <a href=<%="room/edit/" + items._id %> class="btn btn-secondary mt-1">Edit</a>
