@@ -1,5 +1,6 @@
 const Reservation = require('../models/Reservation');
 const Rooms = require('../models/Room');
+const jwt = require('jsonwebtoken');
 
 // get all reservations
 const reservation_index = async (req, res) => {
@@ -13,13 +14,27 @@ const reservation_index = async (req, res) => {
 
     Reservation.find().sort({createdAt: 1})
     .then((result) => {
-        res.render('reservation',{title:"RESERVATIONS", data: result, total, limit, page, search});
+        res.render('reservation',{title:"RESERVATIONS", data: result, total, limit, page, search, isLogged: false});
     })
     .catch(err => console.log(err))
 }
 
 // get all rooms
 const rooms_index = async (req, res) => {
+    let isLogged = false;
+    const isTokenValid = () => {
+        const token = req.cookies.token;
+        if (!token) {
+            return;
+        }
+        try {
+            const data = jwt.verify(token, process.env.TOKEN_SECRET);
+            isLogged = true;
+        } catch (error) {
+            return;
+        }
+    };
+    isTokenValid();
     try {
         const page = parseInt(req.query.page) - 1 || 0;
         const limit = parseInt(req.query.limit) || 5;
@@ -38,7 +53,7 @@ const rooms_index = async (req, res) => {
         .limit(limit)
         .skip(page * limit);
 
-        res.render('reservation-add',{title:"NEW BOOKING", data: rooms, total, limit, page: page+1, search});
+        res.render('reservation-add',{title:"NEW BOOKING", data: rooms, total, limit, page: page+1, search, isLogged});
     } catch (error) {
         console.log(error);
     }
@@ -66,6 +81,22 @@ const reservation_add = async (req, res) => {
 const reservation_find = (req,res) => {
     const id = req.params.id;
     let reservations = null;
+
+    let isLogged = false;
+    const isTokenValid = () => {
+        const token = req.cookies.token;
+        if (!token) {
+            return;
+        }
+        try {
+            const data = jwt.verify(token, process.env.TOKEN_SECRET);
+            isLogged = true;
+        } catch (error) {
+            return;
+        }
+    };
+    isTokenValid();
+
     Reservation.findById(id)
     .then((result) => {
         if(result){
@@ -75,9 +106,9 @@ const reservation_find = (req,res) => {
                 if(results){
                     let viewOrEdit = req.params.viewOrEdit;
                     if(viewOrEdit=='view'){
-                        res.render('reservation-view', {data: reservations, rooms: results, title:'VIEW RESERVATION'});
+                        res.render('reservation-view', {data: reservations, rooms: results, title:'VIEW RESERVATION', isLogged});
                     }else if(viewOrEdit=='edit'){
-                        res.render('reservation-edit', {data: reservations, rooms: results, title:'EDIT RESERVATION'});
+                        res.render('reservation-edit', {data: reservations, rooms: results, title:'EDIT RESERVATION', isLogged});
                     }
                     console.log('Get a record');
                 }else{
@@ -190,6 +221,21 @@ const reservation_delete = async (req, res) => {
 
 // search reservation
 const reservation_search =  async (req, res) => {
+    let isLogged = false;
+    const isTokenValid = () => {
+        const token = req.cookies.token;
+        if (!token) {
+            return;
+        }
+        try {
+            const data = jwt.verify(token, process.env.TOKEN_SECRET);
+            isLogged = true;
+        } catch (error) {
+            return;
+        }
+    };
+    isTokenValid();
+
     try {
         const page = parseInt(req.query.page) - 1 || 0;
         const limit = parseInt(req.query.limit) || 5;
@@ -209,7 +255,7 @@ const reservation_search =  async (req, res) => {
         .limit(limit)
         .skip(page * limit);
 
-        res.render('reservation',{title:"RESERVATIONS", data: reservations, total, limit, page: page+1, search});
+        res.render('reservation',{title:"RESERVATIONS", data: reservations, total, limit, page: page+1, search, isLogged});
     } catch (error) {
         console.log(error);
     }

@@ -15,21 +15,30 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Admin
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">User</a></li>
-                    <li><a class="dropdown-item" href="/room">Room</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/reservation">Booking</a></li>
-                </ul>
-                </li>
+                <% if (isLogged==true) {%>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/register">User</a></li>
+                        <li><a class="dropdown-item" href="/room">Room</a></li>
+                        <!-- <li><hr class="dropdown-divider"></li> -->
+                        <li><a class="dropdown-item" href="/reservation">Booking</a></li>
+                    </ul>
+                    </li>
+                <%}%>
                 <!-- <li class="nav-item">
                     <a class="nav-link disabled">Disabled</a>
                 </li> -->
             </ul>
         </div>
+        <% if (isLogged==true) {%>
+            <form id="logoutForm" action="/logout/" method="GET">
+                <button type="submit" class="btn btn-dark bg-gradient">
+                    Logout
+                </button>
+            </form>
+        <%}%>
     </div>
 </nav>

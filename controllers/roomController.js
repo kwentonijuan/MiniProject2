@@ -1,4 +1,5 @@
 const Rooms = require('../models/Room');
+const jwt = require('jsonwebtoken');
 
 // get all rooms
 const rooms_index = async (req, res) => {
@@ -28,15 +29,30 @@ const rooms_add = (req, res) => {
 
 // find room
 const rooms_find = (req,res) => {
+    let isLogged = false;
+    const isTokenValid = () => {
+        const token = req.cookies.token;
+        if (!token) {
+            return;
+        }
+        try {
+            const data = jwt.verify(token, process.env.TOKEN_SECRET);
+            isLogged = true;
+        } catch (error) {
+            return;
+        }
+    };
+    isTokenValid();
+
     const id = req.params.id;
     Rooms.findById(id)
     .then((result) => {
         if(result){
             let viewOrEdit = req.params.viewOrEdit;
             if(viewOrEdit=='view'){
-                res.render('room-view', {data: result, title:'VIEW ROOM'});
+                res.render('room-view', {data: result, title:'VIEW ROOM', isLogged});
             }else if(viewOrEdit=='edit'){
-                res.render('room-edit', {data: result, title:'EDIT ROOM'});
+                res.render('room-edit', {data: result, title:'EDIT ROOM', isLogged});
             }
             console.log('Get a record');
         }else{
@@ -79,6 +95,21 @@ const rooms_delete = async (req, res) => {
 
 // search room
 const rooms_search =  async (req, res) => {
+    let isLogged = false;
+    const isTokenValid = () => {
+        const token = req.cookies.token;
+        if (!token) {
+            return;
+        }
+        try {
+            const data = jwt.verify(token, process.env.TOKEN_SECRET);
+            isLogged = true;
+        } catch (error) {
+            return;
+        }
+    };
+    isTokenValid();
+
     try {
         const page = parseInt(req.query.page) - 1 || 0;
         const limit = parseInt(req.query.limit) || 5;
@@ -86,7 +117,9 @@ const rooms_search =  async (req, res) => {
 
         //total search items
         const total = await Rooms.countDocuments({
-            roomName: {$regex: search, $options: 'i'}
+            $or: [{roomName: {$regex: search, $options: 'i'}},
+                {category: {$regex: search, $options: 'i'}}
+            ]
         });
 
         //check/ search from database 
@@ -97,7 +130,7 @@ const rooms_search =  async (req, res) => {
         .limit(limit)
         .skip(page * limit);
 
-        res.render('room',{title:"ROOMS", data: rooms, total, limit, page: page+1, search});
+        res.render('room',{title:"ROOMS", data: rooms, total, limit, page: page+1, search, isLogged});
     } catch (error) {
         console.log(error);
     }
